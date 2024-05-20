@@ -10,7 +10,9 @@ Dragon::Dragon(Position initialPosition, bool isLastboss): Enemy(initialPosition
 Dragon::~Dragon(){}
 
 Position
-Dragon::nextPosition(){}
+Dragon::nextPosition(){
+    return position;
+}
 
 
 
