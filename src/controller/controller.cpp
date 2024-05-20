@@ -10,56 +10,79 @@ Controller::Controller() {
     RoomData roomData = ROOM_DATA[defaultRoomIndex];
 
     // initialize class
+    rooms[0] = new Room(roomData);
+    rooms[1] = new Room(ROOM_DATA[1]);
+    rooms[2] = new Room(ROOM_DATA[2]);
 
-
+    currentRoomIndex = defaultRoomIndex;
     
+    player = new Player(rooms[defaultRoomIndex]->getInitialPosition(), 20, 20, "Player001");
+
+    state = PROCESS_MOVEMENT;
 }
 
-RunningState Controller::run(InputState action) {
+// Add your code to implement the Controller class here.
+Controller::~Controller(){
+    delete rooms[0];
+    delete player;
+}
 
-    switch (state) {
-    case PROCESS_MOVEMENT: {
-        
-        // add your code to implement the enemy movement
-
-
-
-
-
-
-
-
-
-
-
-
+RunningState
+Controller::run(InputState action){
+    Position tempPos = player->getPosition();
+    switch (action)
+    {
+    case ACTION_UP:
+        tempPos.moveUP();
         break;
-    }
-
+    case ACTION_DOWN:
+        tempPos.moveDown();
+        break;
+    case ACTION_LEFT:
+        tempPos.moveLeft();
+        break;
+    case ACTION_RIGHT:
+        tempPos.moveRight();
+        break;
+    
     default:
         break;
     }
 
-    this->render();
 
+    if(rooms[currentRoomIndex]->walkable(tempPos)){
+            player->move(tempPos);
+    }else if(0 > tempPos.getX() || tempPos.getX() >= GAME_WINDOW_SIZE_X){
+            MoveState movestate;
+            Position originPos = player->getPosition();
+            movestate = player->move(tempPos);
+            if(movestate == LEFTROOM){
+                if(currentRoomIndex > 0){
+                    currentRoomIndex -= 1;
+                }else{
+                    player->move(originPos);
+                }
+            }else if(movestate == RIGHTROOM){
+                if(currentRoomIndex < 2){
+                    currentRoomIndex += 1;
+                }else{
+                    player->move(originPos);
+                }
+            }
+    }
+    
+    for(auto enemy : rooms[currentRoomIndex]->getEnemies()) {
+        tempPos = enemy->nextPosition();
+        while(! rooms[currentRoomIndex]->walkable(tempPos)) {
+            tempPos = enemy->nextPosition();
+        }
+        enemy->setPosition(tempPos);
+    }
+
+
+    render();
     return PLAY;
 }
-
-// Add your code to implement the Controller class here.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // render
 void Controller::render() {
@@ -91,4 +114,10 @@ void Controller::render() {
         break;
     }
     output();
+}
+
+void
+Controller::roomChange(int roomIndex){
+    currentRoomIndex = roomIndex;
+    return;
 }

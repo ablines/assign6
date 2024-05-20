@@ -9,10 +9,9 @@ public:
     ~Slime();
     
     // Complete the Slime class with reference to the Enemy class.
+    Position nextPosition();
 
-
-
-
+    void render();
 
 
 

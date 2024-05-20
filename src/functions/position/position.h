@@ -17,11 +17,20 @@ public:
 
     bool operator==(const Position &other) const;
 
+    Position& operator=(const Position &other);
 
-
-
-
-
+    void moveUP(){
+        positionY -= 1;
+    }
+    void moveDown(){
+        positionY += 1;
+    }
+    void moveLeft(){
+        positionX -= 1;
+    }
+    void moveRight(){
+        positionX += 1;
+    }
 
 
 };

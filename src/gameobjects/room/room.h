@@ -34,6 +34,10 @@ class Room {
         const std::vector<Enemy *> & getEnemies();
 
         void render(Position position);
+
+        int getRoomID();
+
+        Position getInitialPosition();
 };
 
 #endif

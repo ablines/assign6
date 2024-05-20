@@ -7,13 +7,17 @@
 
 using namespace PlayerState;
 
-class Player: public GameObject {
+// Rewrite this class to inherit from the GameObject class
+// at /src/gameobjects/gameobject.h
+
+class Player : public GameObject{
+private:
     int healPower = 8;
 public:
-    Player(Position initialPosition);
+    Player(Position initialPosition, int maxHealth, int attack, std::string name);
     ~Player();
 
-    MoveState move();
+    MoveState move(Position position);
     
     void render();
 };

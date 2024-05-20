@@ -7,9 +7,10 @@ Dragon::Dragon(Position initialPosition, bool isLastboss): Enemy(initialPosition
 }
 
 // add your code to implement the Dragon class here
+Dragon::~Dragon(){}
 
-
-
+Position
+Dragon::nextPosition(){}
 
 
 

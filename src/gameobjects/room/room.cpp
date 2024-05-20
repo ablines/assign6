@@ -23,19 +23,49 @@ Room::Room(RoomData data) {
 
 // add your code to implement the Room class here
 
+Room::~Room(){}
+
+//todo
+bool
+Room::walkable(Position position){
+    if( 0 > position.getX() || position.getX() >= GAME_WINDOW_SIZE_X){
+        return false;
+    }else if(0 > position.getY() || position.getY() >= GAME_WINDOW_SIZE_Y){
+        return false;
+    }
+    switch (defaultRoomObjectMap[position.getY()][position.getX()]){
+        case OBJECT_NONE:
+        case OBJECT_DOOR:
+        case OBJECT_GRASS:
+            return true;
+        case OBJECT_WALL:
+        case OBJECT_ROCK:
+        case OBJECT_WATER:
+        default:
+            return false;
+    }
+}
+
+int
+Room::getRoomID(){
+    return roomID;
+}
+
+Position
+Room::getInitialPosition(){
+    return playerInitialPosition;
+}
 
 
+void 
+Room::destroyEnemy(Enemy *enemy){
+    delete enemy;
+}
 
-
-
-
-
-
-
-
-
-
-
+const std::vector<Enemy *> & 
+Room::getEnemies(){
+    return enemies;
+}
 
 
 
